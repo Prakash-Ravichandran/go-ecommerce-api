@@ -47,3 +47,7 @@ func NewHandler(s Service) *handler {
 	}
 }
 ```
+
+### add handler and service layers for /products route
+
+[[products handler]](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/8124dc9ac98b430a8989e7486d82f39d347ca01b)

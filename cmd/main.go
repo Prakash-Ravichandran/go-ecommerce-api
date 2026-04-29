@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"log/slog"
 	"os"
 )
 
@@ -14,10 +14,20 @@ func main() {
 		config: cfg,
 	}
 
-	h := api.mount()
-	err := api.run(h)
-	if err != nil {
-		log.Printf("Server has failed to start: %s", err)
+	// Logger
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+	slog.SetDefault(logger)
+
+	// h := api.mount()
+	// err := api.run(h)
+
+	// if err != nil {
+	// 	slog.Error("Server has failed to start", "error", err)
+	// 	os.Exit(1)
+	// }
+
+	if err := api.run(api.mount()); err != nil {
+		slog.Error("Server has failed to start", "error", err)
 		os.Exit(1)
 	}
 }

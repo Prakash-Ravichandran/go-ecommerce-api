@@ -1,10 +1,11 @@
 package main
 
 import (
-	"log"
+	"log/slog"
 	"net/http"
 	"time"
 
+	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/products"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -31,6 +32,9 @@ func (app *application) mount() http.Handler {
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("all good"))
 	})
+
+	productHandler := products.NewHandler(nil) // pass the service
+	r.Get("/products", productHandler.ListProducts)
 	return r
 }
 
@@ -43,7 +47,7 @@ func (app *application) run(h http.Handler) error {
 		IdleTimeout:  time.Minute,
 	}
 
-	log.Printf("Starting server on %s", app.config.addr)
+	slog.Info("Starting server on", "addr", app.config.addr)
 
 	return srv.ListenAndServe()
 }

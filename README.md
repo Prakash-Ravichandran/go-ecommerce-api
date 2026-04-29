@@ -51,3 +51,7 @@ func NewHandler(s Service) *handler {
 ### add handler and service layers for /products route
 
 [[products handler]](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/8124dc9ac98b430a8989e7486d82f39d347ca01b)
+
+### custom json write package
+
+[cutsom json write package](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/0ef7ebf458d1c180b5556add763fd28952ba4b56#diff-db5f40f068f65e740724c149d30ee31afe66fee767c4e663a8d864b5b7f5879a)

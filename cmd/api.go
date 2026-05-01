@@ -33,7 +33,8 @@ func (app *application) mount() http.Handler {
 		w.Write([]byte("all good"))
 	})
 
-	productHandler := products.NewHandler(nil) // pass the service
+	productsService := products.NewService()
+	productHandler := products.NewHandler(productsService) // pass the service
 	r.Get("/products", productHandler.ListProducts)
 	return r
 }

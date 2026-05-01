@@ -114,3 +114,13 @@ Imagine ListProducts took 10 seconds to run because the database was slow. If th
 3. Inside your service, you could check ctx.Err(). If it's canceled, you stop the database query mid-way.
 
 Without Context, your server would keep working on a request that no one is listening to anymore!
+
+### Database with sqlc
+
+Migrations
+
+- History of changes to the database
+
+- Database migrations are a way to incrementally modify your database schema. For example, adding new tables, altering existing tables, etc...You can write them as SQL files and execute them, or write them using libraries.
+
+#### what is dependency injection ?

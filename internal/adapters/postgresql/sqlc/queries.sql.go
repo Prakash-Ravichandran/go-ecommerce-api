@@ -38,3 +38,20 @@ func (q *Queries) ListProducts(ctx context.Context) ([]Product, error) {
 	}
 	return items, nil
 }
+
+const listProductsByID = `-- name: ListProductsByID :one
+SELECT id, name, price_in_cents, quantity, created_at FROm products where id = $1
+`
+
+func (q *Queries) ListProductsByID(ctx context.Context, id int64) (Product, error) {
+	row := q.db.QueryRow(ctx, listProductsByID, id)
+	var i Product
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.PriceInCents,
+		&i.Quantity,
+		&i.CreatedAt,
+	)
+	return i, err
+}

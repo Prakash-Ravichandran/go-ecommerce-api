@@ -143,4 +143,18 @@ go install github.com/pressly/goose/v3/cmd/goose@latest
 goose -s create create_products sql
 ```
 
+### Running postgres database locally
+
+```azurepowershell
+
+cd D:\Backend_Development\go-ecommerce-api
+
+ docker compose up
+ docker compose down
+```
+
+<img width="1688" height="1006" alt="Image" src="https://github.com/user-attachments/assets/0865a665-119f-4496-be60-84da8a361510" />
+
+<img width="1908" height="1012" alt="Image" src="https://github.com/user-attachments/assets/2a40c4c1-4176-4643-be67-fac37377e70c" />
+
 #### what is dependency injection ?

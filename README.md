@@ -119,10 +119,26 @@ Without Context, your server would keep working on a request that no one is list
 
 [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/ddc8d6f77562725027ab08df4fa48b10c87ee588)
 
-Migrations
+### Migrations
+
+- use a package called goose to create a new sql migration [pkg.go.dev](https://pkg.go.dev/github.com/pressly/goose)
+
+```go
+go install github.com/pressly/goose/v3/cmd/goose@latest
+```
 
 - History of changes to the database
 
 - Database migrations are a way to incrementally modify your database schema. For example, adding new tables, altering existing tables, etc...You can write them as SQL files and execute them, or write them using libraries.
+  [reddit ref](https://www.reddit.com/r/node/comments/90fo0t/whats_datadatabase_migration/#:~:text=Database%20migrations%20are%20a%20way,or%20write%20them%20using%20libraries.)
+
+- goose up: what we are going to change in our database
+- goose down: how we are going to rollback the change
+
+- create a migrations sql file
+
+```go
+goose -s create create_products sql
+```
 
 #### what is dependency injection ?

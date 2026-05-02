@@ -121,6 +121,8 @@ Without Context, your server would keep working on a request that no one is list
 
 ### Migrations
 
+[commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/6118520a8a395e417d6c7f3cdffa04defc045acc)
+
 - use a package called goose to create a new sql migration [pkg.go.dev](https://pkg.go.dev/github.com/pressly/goose)
 
 ```go

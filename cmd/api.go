@@ -5,13 +5,16 @@ import (
 	"net/http"
 	"time"
 
+	repo "github.com/Prakash-Ravichandran/go-ecommerce-api/internal/adapters/postgresql/sqlc"
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/products"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/jackc/pgx/v5"
 )
 
 type application struct {
 	config config
+	db     *pgx.Conn
 	// mount
 	// run
 }
@@ -33,7 +36,7 @@ func (app *application) mount() http.Handler {
 		w.Write([]byte("all good"))
 	})
 
-	productsService := products.NewService()
+	productsService := products.NewService(repo.New(app.db))
 	productHandler := products.NewHandler(productsService) // pass the service
 	r.Get("/products", productHandler.ListProducts)
 	return r
@@ -55,7 +58,7 @@ func (app *application) run(h http.Handler) error {
 
 type config struct {
 	addr string
-	dbs  dbConfig
+	db   dbConfig
 }
 
 type dbConfig struct {

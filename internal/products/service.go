@@ -1,17 +1,25 @@
 package products
 
-import "context"
+import (
+	"context"
+
+	repo "github.com/Prakash-Ravichandran/go-ecommerce-api/internal/adapters/postgresql/sqlc"
+)
 
 type Service interface {
-	ListProducts(ctx context.Context) error
+	ListProducts(ctx context.Context) ([]repo.Product, error)
 }
 
-type svc struct{}
-
-func NewService() Service {
-	return &svc{}
+type svc struct {
+	repo repo.Querier
 }
 
-func (s *svc) ListProducts(ctx context.Context) error {
-	return nil
+func NewService(repo repo.Querier) Service {
+	return &svc{
+		repo: repo,
+	}
+}
+
+func (s *svc) ListProducts(ctx context.Context) ([]repo.Product, error) {
+	return s.repo.ListProducts(ctx)
 }

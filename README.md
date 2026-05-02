@@ -157,4 +157,8 @@ cd D:\Backend_Development\go-ecommerce-api
 
 <img width="1908" height="1012" alt="Image" src="https://github.com/user-attachments/assets/2a40c4c1-4176-4643-be67-fac37377e70c" />
 
+### Connecting to Postgres with GO
+
+[commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/76452c5060fc45c099fe85b3278a4ffb99c051fe)
+
 #### what is dependency injection ?

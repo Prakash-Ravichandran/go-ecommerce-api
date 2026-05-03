@@ -211,4 +211,8 @@ type OrderItem struct {
 }
 ```
 
+### create a get /orders route handler with OrderService
+
+[commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/fafee51fb3a56cc80eb9113af3cc232a2e3e40fc)
+
 #### what is dependency injection ?

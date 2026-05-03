@@ -165,4 +165,50 @@ cd D:\Backend_Development\go-ecommerce-api
 
 [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/ed5c65ac1289fcab77b5ae8cb2cc0117e1c87c83)
 
+### order /post
+
+create an oders migration sql file
+
+```
+goose -s create create_orders sql
+
+```
+
+- As a result file created - 00002_create_orders.sql
+
+```
+ goose up
+```
+
+2026/05/03 08:02:55 OK 00002_create_orders.sql (44.26ms)
+2026/05/03 08:02:55 goose: successfully migrated database to version: 2
+
+<img width="1052" height="435" alt="Image" src="https://github.com/user-attachments/assets/e1151c26-568d-4009-8663-a8765602bf79" />
+
+**create models, interfaces and others**
+
+[commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/967a35c7387da4e0faa15046419e4f7d7d985772)
+
+```sql
+sqlc generate
+```
+
+generates models for the tables
+
+```go
+type Order struct {
+	ID         int64              `json:"id"`
+	CustomerID int64              `json:"customer_id"`
+	CreatedAt  pgtype.Timestamptz `json:"created_at"`
+}
+
+type OrderItem struct {
+	ID         int64 `json:"id"`
+	OrderID    int64 `json:"order_id"`
+	ProductID  int64 `json:"product_id"`
+	Quantity   int32 `json:"quantity"`
+	PriceCents int32 `json:"price_cents"`
+}
+```
+
 #### what is dependency injection ?

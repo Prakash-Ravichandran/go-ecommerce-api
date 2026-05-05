@@ -11,6 +11,7 @@ import (
 
 type OrderService interface {
 	ListOrders(ctx context.Context) ([]repo.Order, error)
+	FindOrderById(ctx context.Context, id int64) (repo.Order, error)
 	PlaceOrder(ctx context.Context, tempOrder createOrderParams) (repo.Order, error)
 }
 
@@ -33,6 +34,10 @@ func NewService(repo *repo.Queries, db *pgx.Conn) OrderService {
 
 func (s *svc) ListOrders(ctx context.Context) ([]repo.Order, error) {
 	return s.repo.ListOrders(ctx)
+}
+
+func (s *svc) FindOrderById(ctx context.Context, id int64) (repo.Order, error) {
+	return s.repo.ListOrderById(ctx, id)
 }
 
 func (s *svc) PlaceOrder(ctx context.Context, tempOrder createOrderParams) (repo.Order, error) {

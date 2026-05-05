@@ -51,6 +51,17 @@ func (q *Queries) CreateOrderItem(ctx context.Context, arg CreateOrderItemParams
 	return i, err
 }
 
+const listOrderById = `-- name: ListOrderById :one
+SELECT id, customer_id, created_at FROM orders where id = $1
+`
+
+func (q *Queries) ListOrderById(ctx context.Context, id int64) (Order, error) {
+	row := q.db.QueryRow(ctx, listOrderById, id)
+	var i Order
+	err := row.Scan(&i.ID, &i.CustomerID, &i.CreatedAt)
+	return i, err
+}
+
 const listOrders = `-- name: ListOrders :many
 SELECT id, customer_id, created_at FROM orders
 `

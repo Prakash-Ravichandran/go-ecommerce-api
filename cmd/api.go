@@ -42,9 +42,9 @@ func (app *application) mount() http.Handler {
 	r.Get("/products", productHandler.ListProducts)
 	r.Get("/products/{id}", productHandler.ListProductsByID)
 
-	orderService := orders.NewService()
-	ordersHandler := orders.NewHandler(orderService)
-	r.Get("/orders", ordersHandler.HandleGetOrders)
+	dummyOrderService := orders.DummyNewService()
+	ordersHandlerForDummy := orders.NewHandler(dummyOrderService)
+	r.Get("/orders", ordersHandlerForDummy.HandleGetOrders)
 	return r
 }
 

@@ -219,4 +219,107 @@ type OrderItem struct {
 
 [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/a17278195b210527a6091b377c8151a4b5c77372)
 
+**1. Data to create a order**
+
+```json
+{
+  "customerId": 33,
+  "items": [
+    {
+      "productId": 1,
+
+      "quantity": 4
+    },
+    {
+      "productId": 2,
+      "quantity": 6
+    }
+  ]
+}
+```
+
+- reponse: 201
+
+```json
+{
+  "id": 18,
+  "customer_id": 67,
+  "created_at": "2026-05-05T11:30:00.363912+05:30"
+}
+```
+
+**2. Data to throw product not found**
+
+- response: product not found
+
+```json
+{
+  "customerId": 67,
+  "items": [
+    {
+      "productId": 1,
+
+      "quantity": 4
+    },
+    {
+      "productId": 1000, // ID not exist in DB
+      "quantity": 6
+    }
+  ]
+}
+```
+
+**3. Data to throw product has not enough stock**
+
+- response: product has not enough stock
+
+```json
+{
+  "customerId": 67,
+  "items": [
+    {
+      "productId": 1,
+
+      "quantity": 4
+    },
+    {
+      "productId": 2,
+      "quantity": 10000 // product has not enough stock
+    }
+  ]
+}
+```
+
+**4. Data to throw customer ID is required**
+
+- response: customer ID is required
+
+```json
+{
+  // "customerId": 67,
+  "items": [
+    {
+      "productId": 1,
+
+      "quantity": 4
+    },
+    {
+      "productId": 2,
+      "quantity": 5
+    }
+  ]
+}
+```
+
+**5. Data to throw at least one item is required**
+
+- response: at least one item is required
+
+```json
+{
+  "customerId": 67
+  // empty items []
+}
+```
+
 #### what is dependency injection ?

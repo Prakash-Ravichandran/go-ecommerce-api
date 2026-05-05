@@ -14,3 +14,6 @@ INSERT INTO order_items (order_id, product_id, quantity, price_cents) VALUES ($1
 
 -- name: ListOrders :many
 SELECT * FROM orders;
+
+-- name: ListOrders :one
+SELECT * FROM orders where id = $1;

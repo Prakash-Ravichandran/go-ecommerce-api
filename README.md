@@ -330,4 +330,19 @@ With Dummy Service:
 
 [docker installation](https://docs.docker.com/desktop/setup/install/windows-install/#start-docker-desktop)
 
+#### what is $1, $2, $3 in queries.sql ?
+
+```sql
+-- name: GetOrder :one
+SELECT * FROM orders WHERE id = $1 AND customer_id = $2;
+```
+
+- sqlc will generate a Go function that looks like this:
+
+```go
+  func (q *Queries) GetOrder(ctx, id int64, customerID int64) (Order, error)
+```
+
+- The $1 maps to the id argument, and $2 maps to the customerID argument
+
 #### what is dependency injection ?

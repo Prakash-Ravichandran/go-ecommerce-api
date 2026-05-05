@@ -215,4 +215,8 @@ type OrderItem struct {
 
 [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/fafee51fb3a56cc80eb9113af3cc232a2e3e40fc)
 
+### create post /orders handler and service
+
+[commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/a17278195b210527a6091b377c8151a4b5c77372)
+
 #### what is dependency injection ?

@@ -19,7 +19,7 @@ func NewHandler(o OrderService) *handler {
 }
 
 func (h *handler) HandleGetOrders(w http.ResponseWriter, r *http.Request) {
-	OrdersFromDb, err := h.service.GetOrders(r.Context())
+	OrdersFromDb, err := h.service.ListOrders(r.Context())
 	if err != nil {
 		log.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)

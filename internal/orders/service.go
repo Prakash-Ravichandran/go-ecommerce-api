@@ -4,15 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	repo "github.com/Prakash-Ravichandran/go-ecommerce-api/internal/adapters/postgresql/sqlc"
 	"github.com/jackc/pgx/v5"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type OrderService interface {
-	GetOrder(ctx context.Context) []repo.Order
 	PlaceOrder(ctx context.Context, tempOrder createOrderParams) (repo.Order, error)
 }
 
@@ -35,27 +32,6 @@ func NewService(repo *repo.Queries, db *pgx.Conn) OrderService {
 		repo: repo,
 		db:   db,
 	}
-}
-
-func (s *svc) GetOrder(ctx context.Context) []repo.Order {
-	dummyOrders := []repo.Order{
-		{
-			ID: 1, CustomerID: 12, CreatedAt: pgtype.Timestamptz{
-				Time:  time.Now(),
-				Valid: true,
-			}},
-		{
-			ID: 2, CustomerID: 49, CreatedAt: pgtype.Timestamptz{
-				Time:  time.Now(),
-				Valid: true,
-			}},
-		{
-			ID: 3, CustomerID: 79, CreatedAt: pgtype.Timestamptz{
-				Time:  time.Now(),
-				Valid: true,
-			}},
-	}
-	return dummyOrders
 }
 
 func (s *svc) PlaceOrder(ctx context.Context, tempOrder createOrderParams) (repo.Order, error) {

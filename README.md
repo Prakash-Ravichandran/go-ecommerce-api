@@ -219,6 +219,12 @@ With Active Service:
 With Dummy Service:
 [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/fafee51fb3a56cc80eb9113af3cc232a2e3e40fc)
 
+### create GET /order/:id route handler with Orderservice
+
+Example Endpoint: http://127.0.0.1:8080/orders/1
+
+[commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/49b2bd8c56f3d86ab0063f920597df5e9f069714)
+
 ### create post /orders handler and service
 
 [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/a17278195b210527a6091b377c8151a4b5c77372)

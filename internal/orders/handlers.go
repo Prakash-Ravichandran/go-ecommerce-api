@@ -1,6 +1,7 @@
 package orders
 
 import (
+	"log"
 	"log/slog"
 	"net/http"
 
@@ -15,6 +16,16 @@ func NewHandler(o OrderService) *handler {
 	return &handler{
 		service: o,
 	}
+}
+
+func (h *handler) HandleGetOrders(w http.ResponseWriter, r *http.Request) {
+	OrdersFromDb, err := h.service.GetOrders(r.Context())
+	if err != nil {
+		log.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	json.Write(w, http.StatusOK, OrdersFromDb)
 }
 
 func (h *handler) HandlePostOrders(w http.ResponseWriter, r *http.Request) {

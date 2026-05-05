@@ -10,6 +10,7 @@ import (
 )
 
 type OrderService interface {
+	GetOrders(ctx context.Context) ([]repo.Order, error)
 	PlaceOrder(ctx context.Context, tempOrder createOrderParams) (repo.Order, error)
 }
 
@@ -23,15 +24,15 @@ var (
 	ErrProductNoStock  = errors.New("product has not enough stock")
 )
 
-func DummyNewService() OrderService {
-	return &svc{}
-}
-
 func NewService(repo *repo.Queries, db *pgx.Conn) OrderService {
 	return &svc{
 		repo: repo,
 		db:   db,
 	}
+}
+
+func (s *svc) GetOrders(ctx context.Context) ([]repo.Order, error) {
+	return s.repo.ListOrders(ctx)
 }
 
 func (s *svc) PlaceOrder(ctx context.Context, tempOrder createOrderParams) (repo.Order, error) {

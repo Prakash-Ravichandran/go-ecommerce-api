@@ -332,6 +332,59 @@ Example Endpoint: http://127.0.0.1:8080/orders/1
 }
 ```
 
+### create POST /products
+
+- caution: for every post /products send a different product
+
+```json
+{
+  "id": 101,
+  "name": "Wireless Mechanical Keyboard",
+  "price_in_cents": 8900,
+  "quantity": 50,
+  "created_at": "2026-05-06T10:00:00Z"
+}
+```
+
+- response:
+
+```json
+{
+  "id": 101,
+  "name": "Wireless Mechanical Keyboard",
+  "price_in_cents": 8900,
+  "quantity": 50,
+  "created_at": "2026-05-06T10:00:00Z"
+}
+```
+
+### create PUT /products
+
+Data for the payload:
+
+```json
+{
+  "id": 17,
+  "price_in_cents": 120
+}
+```
+
+Response:
+
+```json
+{
+  "id": 17,
+  "name": "Omen",
+  "price_in_cents": 120,
+  "quantity": 10,
+  "created_at": "2026-05-06T07:00:21.578824+05:30"
+}
+```
+
+Updated Table Data:
+
+<img width="1662" height="606" alt="Image" src="https://github.com/user-attachments/assets/1e3046d4-d200-4a24-9c28-68428e729c15" />
+
 #### docker installation
 
 [docker installation](https://docs.docker.com/desktop/setup/install/windows-install/#start-docker-desktop)

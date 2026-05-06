@@ -4,12 +4,10 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 
 	repo "github.com/Prakash-Ravichandran/go-ecommerce-api/internal/adapters/postgresql/sqlc"
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/json"
 	"github.com/go-chi/chi/v5"
-	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Handler struct {
@@ -55,13 +53,34 @@ func (h *Handler) ListProductsByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) HandleCreateProduct(w http.ResponseWriter, r *http.Request) {
-	products := repo.CreateProductParams{ID: 17, Name: "Omen", PriceInCents: 55, Quantity: 10, CreatedAt: pgtype.Timestamptz{
-		Time:  time.Now(), // This is the standard way
-		Valid: true,
-	}}
-	productMessage, err := h.service.CreateProducts(r.Context(), products)
+	var tempProduct repo.CreateProductParams
+
+	if err := json.Read(r, &tempProduct); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	createdProduct, err := h.service.CreateProducts(r.Context(), tempProduct)
+
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	json.Write(w, http.StatusOK, productMessage)
+	json.Write(w, http.StatusOK, createdProduct)
+}
+
+func (h *Handler) HandleUpdateProduct(w http.ResponseWriter, r *http.Request) {
+	var tempUpdateProduct repo.UpdateProductPriceParams
+
+	if err := json.Read(r, &tempUpdateProduct); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	createdProduct, err := h.service.UpdateProductPrice(r.Context(), tempUpdateProduct)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	json.Write(w, http.StatusOK, createdProduct)
+
 }

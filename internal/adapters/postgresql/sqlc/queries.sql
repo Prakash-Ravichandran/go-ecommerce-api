@@ -22,3 +22,6 @@ SELECT * FROM orders where id = $1;
 INSERT INTO products (
     id, name, price_in_cents, quantity, created_at
 ) VALUES ($1, $2, $3, $4, $5) RETURNING *;
+
+-- name: UpdateProductPrice :one
+UPDATE products SET price_in_cents = $2 WHERE id = $1 RETURNING *;

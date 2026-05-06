@@ -17,3 +17,8 @@ SELECT * FROM orders;
 
 -- name: ListOrderById :one
 SELECT * FROM orders where id = $1;
+
+-- name: CreateProduct :one
+INSERT INTO products (
+    id, name, price_in_cents, quantity, created_at
+) VALUES ($1, $2, $3, $4, $5) RETURNING *;

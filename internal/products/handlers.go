@@ -4,9 +4,12 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
+	repo "github.com/Prakash-Ravichandran/go-ecommerce-api/internal/adapters/postgresql/sqlc"
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/json"
 	"github.com/go-chi/chi/v5"
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 type Handler struct {
@@ -49,4 +52,16 @@ func (h *Handler) ListProductsByID(w http.ResponseWriter, r *http.Request) {
 
 	json.Write(w, http.StatusOK, product)
 
+}
+
+func (h *Handler) HandleCreateProduct(w http.ResponseWriter, r *http.Request) {
+	products := repo.CreateProductParams{ID: 17, Name: "Omen", PriceInCents: 55, Quantity: 10, CreatedAt: pgtype.Timestamptz{
+		Time:  time.Now(), // This is the standard way
+		Valid: true,
+	}}
+	productMessage, err := h.service.CreateProducts(r.Context(), products)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+	json.Write(w, http.StatusOK, productMessage)
 }

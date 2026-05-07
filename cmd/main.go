@@ -10,8 +10,14 @@ import (
 )
 
 func main() {
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Fallback for local dev
+	}
+
 	cfg := config{
-		addr: ":8080",
+		addr: ":" + port,
 		db: dbConfig{
 			dsn: env.GetString("GOOSE_DBSTRING", "host=localhost user=postgres password=postgres dbname=ecom sslmode=disable"),
 		},

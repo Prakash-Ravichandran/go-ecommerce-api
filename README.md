@@ -1,26 +1,69 @@
 # go-ecommerce-api
 
-Use of internal folder in go [ref](https://www.bytesizego.com/blog/golang-internal-package)
+## API Provides 2 services
 
-- external users/usages of this package cannot have access to this internal folder.
+- [products](https://github.com/Prakash-Ravichandran/go-ecommerce-api/tree/main/internal/orders) - GET products, POST products, PUT products.
+- [orders](https://github.com/Prakash-Ravichandran/go-ecommerce-api/tree/main/internal/products) - GET orders, POST orders.
 
-## creating an http-server setup
+## Project setup
 
-- Add structs for http-server [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/890847824557e7566fbfef66b78dcb09dd348170)
-- Flow of request: user -> handler GET /products -> service getProducts -> DB SELECT \* FROM products
-- [Commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/7b9d8aab0df2ce17917d7367501be29e87dde9fe)
+```
+git clone https://github.com/Prakash-Ravichandran/go-ecommerce-api.git
+```
 
-### Strcutured logging
+Dependencies:
 
-- Instead of printing, we can use structured logging with levels - info, error amd with meta data
-- Use global logger `slog.SetDefault(logger)` to replace `r.Use(middleware.Logger)`
-  [structured logging](https://go.dev/blog/slog)
+- Docker
+- [Goose](https://github.com/pressly/goose)
+- [SQLC](https://docs.sqlc.dev/en/latest/)
 
-### Clean Layered Architecture
+### Running the API
 
-| |Transport| |
-| |Service| |  
-| |Repository||
+```bash
+ cd go-ecommerce-api
+ docker compose up
+```
+
+```go
+  cd cmd
+  go run .
+```
+
+## Adding a new table
+
+1. Create a new migration file under `internal/adapters/postgres/migrations`
+
+```bash
+goose -s create create_products sql
+```
+
+result: 00001_create_products.sql (create and drop tables here)
+
+2. Run the migrations
+
+```bash
+goose up
+```
+
+result: table created in DB (below image is just for reference).
+
+<img width="1662" height="606" alt="Image" src="https://github.com/user-attachments/assets/1e3046d4-d200-4a24-9c28-68428e729c15" />
+
+3. Generate the SQLC code
+
+```bash
+sqlc generate
+```
+
+result: generates models, interfaces and go code to DB manipulations (SELECT, INSERT, UPDATE, DELETE).
+
+## Clean Layered Architecture
+
+| Layer          | Responsibility                                 | Examples                            |
+| -------------- | ---------------------------------------------- | ----------------------------------- |
+| **Transport**  | Handles incoming requests & outgoing responses | HTTP, gRPC, REST, GraphQL           |
+| **Service**    | Contains business logic & orchestration        | Use cases, validators, transformers |
+| **Repository** | Manages data access & persistence              | DB queries, ORM, external APIs      |
 
 Transport has a dependency of Service and Service depends on DB(repository)
 
@@ -29,7 +72,25 @@ Transport has a dependency of Service and Service depends on DB(repository)
 
 <img width="1168" height="602" alt="Image" src="https://github.com/user-attachments/assets/103c11ef-9ef0-43d6-a422-d81b893a1d98" />
 
-### when to use \* and & ?
+## Create http-server setup
+
+- Add structs for http-server [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/890847824557e7566fbfef66b78dcb09dd348170)
+- Flow of request: user -> handler GET /products -> service getProducts -> DB SELECT \* FROM products
+- [Commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/7b9d8aab0df2ce17917d7367501be29e87dde9fe)
+
+## Structured logging
+
+- Instead of printing, we can use structured logging with levels - info, error amd with meta data
+- Use global logger `slog.SetDefault(logger)` to replace `r.Use(middleware.Logger)`
+  [structured logging](https://go.dev/blog/slog)
+
+## Need for internal/ folder:
+
+Use of internal folder in go [ref](https://www.bytesizego.com/blog/golang-internal-package)
+
+- external users/usages of this package cannot have access to this internal folder.
+
+## when to use \* and & ?
 
 Why return a pointer to the Handler ?
 
@@ -50,7 +111,7 @@ func NewHandler(s Service) *handler {
 
 [Golang pointers](https://youtu.be/2XEQsJLsLN0?si=bAQUEkC2mONMBqKk)
 
-### add handler and service layers for /products route
+## add handler and service layers for /products route
 
 [[products handler]](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/8124dc9ac98b430a8989e7486d82f39d347ca01b)
 

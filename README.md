@@ -290,6 +290,8 @@ Example Endpoint: http://127.0.0.1:8080/orders/1
 
 [commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/a17278195b210527a6091b377c8151a4b5c77372)
 
+Transaction concept: [code](https://github.com/Prakash-Ravichandran/go-ecommerce-api/blob/main/internal/orders/service.go#L55)
+
 **1. Data to create a order**
 
 ```json

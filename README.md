@@ -257,6 +257,10 @@ docker compose down
 - [Commit](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/a17278195b210527a6091b377c8151a4b5c77372)
 - Uses [database transactions](https://github.com/Prakash-Ravichandran/go-ecommerce-api/blob/main/internal/orders/service.go#L55)
 
+- Production API: /orders POST request demo
+
+  https://github.com/user-attachments/assets/20a459f4-754a-420b-a8d2-87f1a13c5460
+
 **SQLC generated models:**
 
 ```go

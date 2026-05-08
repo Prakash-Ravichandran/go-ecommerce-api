@@ -349,6 +349,10 @@ type OrderItem struct {
 { "id": 101, "name": "Wireless Mechanical Keyboard", "price_in_cents": 8900, "quantity": 50, "created_at": "2026-05-06T10:00:00Z" }
 ```
 
+- Production API: /products POST request Demo video
+
+https://github.com/user-attachments/assets/5cd2614e-d9e3-4a18-a9e9-66b5b79c67bb
+
 ---
 
 ## PUT `/products`

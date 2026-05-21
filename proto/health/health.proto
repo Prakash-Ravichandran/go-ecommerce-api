@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package health;
+
+option go_package = "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/health";
+
+service HealthService {
+  rpc CheckHealth (HealthRequest) returns (HealthResponse);
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+}

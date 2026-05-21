@@ -43,11 +43,21 @@ func main() {
 		db:     conn,
 	}
 
-	h := api.mount()
-	err2 := api.run(h)
+	// run conventional REST server
+	// h := api.mount()
+	// err2 := api.run(h)
 
-	if err2 != nil {
-		slog.Error("Server has failed to start", "error", err)
+	// if err2 != nil {
+	// 	slog.Error("Server has failed to start", "error", err)
+	// 	os.Exit(1)
+	// }
+
+	// run GRPC server in a separate go routine to not to block the execution of REST server
+	grpcErr := api.runGRPC()
+
+	if grpcErr != nil {
+		slog.Error("gRPC server failed to start", "error", grpcErr)
 		os.Exit(1)
 	}
+
 }

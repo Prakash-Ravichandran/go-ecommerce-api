@@ -2,15 +2,18 @@ package main
 
 import (
 	"log/slog"
+	"net"
 	"net/http"
 	"time"
 
 	repo "github.com/Prakash-Ravichandran/go-ecommerce-api/internal/adapters/postgresql/sqlc"
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/orders"
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/products"
+	pb "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/health"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jackc/pgx/v5"
+	"google.golang.org/grpc"
 )
 
 type application struct {
@@ -73,4 +76,21 @@ type config struct {
 
 type dbConfig struct {
 	dsn string
+}
+
+// GRPC server
+func (app *application) runGRPC() error {
+	grpcAddr := ":50051"
+	lis, err := net.Listen("tcp", grpcAddr)
+	if err != nil {
+		return err
+	}
+
+	gServer := grpc.NewServer()
+
+	pb.RegisterHealthServiceServer(gServer, &grpcServer{})
+
+	slog.Info("Starting gRPC server on", "addr", grpcAddr)
+
+	return gServer.Serve(lis)
 }

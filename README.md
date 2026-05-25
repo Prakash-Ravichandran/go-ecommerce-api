@@ -9,6 +9,7 @@ A REST API built in Go providing **products** and **orders** services with a cle
 - Add CheckHealth Request and response [CheckHealth](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/3219747e450aa2e26a1a11a3fc48d6b9c4cb99b2)
 
 - HTTP status codes (gRPC status codes)[https://grpc.io/docs/guides/status-codes/]
+- REST vs gRPC docs (gRPC vs REST)[https://refine.dev/blog/grpc-vs-rest/]
 
 ## Table of Contents
 

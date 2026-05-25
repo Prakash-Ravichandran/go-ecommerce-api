@@ -11,6 +11,14 @@ A REST API built in Go providing **products** and **orders** services with a cle
 - HTTP status codes (gRPC status codes)[https://grpc.io/docs/guides/status-codes/]
 - REST vs gRPC docs (gRPC vs REST)[https://refine.dev/blog/grpc-vs-rest/]
 
+### Generate proto files for products
+
+```bash
+
+protoc --go_out=. --go-opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/product/product.proto
+
+```
+
 ## Table of Contents
 
 | S.No | Title                                    | Link                                                                |

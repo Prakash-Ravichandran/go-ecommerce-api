@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package product;
+
+option go_package = "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/product";
+
+import "google/protobuf/timestamp.proto";
+
+service ProductService {
+    rpc GetProducts (GetProductsRequest) returns (GetProductsResponse);
+}
+
+message GetProductsRequest {}
+
+message GetProductsResponse {
+   int64 id = 1;
+   string name = 2;
+   int32 price_in_cents = 3;
+   int32 quantity = 4;
+   google.protobuf.Timestamp created_at = 5;
+}
+

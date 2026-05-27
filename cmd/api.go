@@ -10,6 +10,7 @@ import (
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/orders"
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/products"
 	pb "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/health"
+	pbProduct "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/product"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jackc/pgx/v5"
@@ -89,6 +90,7 @@ func (app *application) runGRPC() error {
 	gServer := grpc.NewServer()
 
 	pb.RegisterHealthServiceServer(gServer, &grpcServer{})
+	pbProduct.RegisterProductServiceServer(gServer, &grpcServerForProducts{})
 
 	slog.Info("Starting gRPC server on", "addr", grpcAddr)
 

@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 
 service ProductService {
     rpc GetProducts (GetProductsRequest) returns (GetProductsResponse);
+    rpc CreateProducts (CreateProductsRequest) returns (CreateProductsResponse); 
 }
 
 message GetProductsRequest {}
@@ -22,4 +23,16 @@ message Product {
 
 message GetProductsResponse {
     repeated Product products = 1;
+}
+
+message CreateProductsRequest {
+   int64 id = 1;
+   string name = 2;
+   int32 price_in_cents = 3;
+   int32 quantity = 4;
+   google.protobuf.Timestamp created_at = 5;
+}
+
+message CreateProductsResponse {
+    Product product = 1;
 }

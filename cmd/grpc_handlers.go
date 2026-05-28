@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log/slog"
+	"time"
 
 	pb "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/health"
 	pbProduct "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/product"
@@ -63,5 +64,18 @@ func (s *grpcServer) GetProducts(ctx context.Context, req *pbProduct.GetProducts
 
 	return &pbProduct.GetProductsResponse{
 		Products: grpcProducts,
+	}, nil
+}
+
+func (s *grpcServer) CreateProducts(ctx context.Context, req *pbProduct.CreateProductsRequest) (*pbProduct.CreateProductsResponse, error) {
+
+	return &pbProduct.CreateProductsResponse{
+		Product: &pbProduct.Product{
+			Id:           12,
+			Name:         "Macbook4",
+			PriceInCents: 55,
+			Quantity:     45,
+			CreatedAt:    timestamppb.New(time.Now()),
+		},
 	}, nil
 }

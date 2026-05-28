@@ -90,7 +90,18 @@ func (app *application) runGRPC() error {
 	gServer := grpc.NewServer()
 
 	pb.RegisterHealthServiceServer(gServer, &grpcServer{})
-	pbProduct.RegisterProductServiceServer(gServer, &grpcServerForProducts{})
+
+	productHandler := &grpcServer{
+		db:   app.db,
+		repo: repo.New(app.db),
+	}
+	// PROVE IT HERE: Log it right during registration setup
+	slog.Info("Registering Product Service Server",
+		"app_db_nil", app.db == nil,
+		"handler_repo_nil", productHandler.repo == nil,
+	)
+
+	pbProduct.RegisterProductServiceServer(gServer, productHandler)
 
 	slog.Info("Starting gRPC server on", "addr", grpcAddr)
 

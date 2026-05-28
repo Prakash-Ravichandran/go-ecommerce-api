@@ -8,6 +8,7 @@ import (
 	pb "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/health"
 	pbProduct "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/product"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgtype"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	repo "github.com/Prakash-Ravichandran/go-ecommerce-api/internal/adapters/postgresql/sqlc"
@@ -69,13 +70,38 @@ func (s *grpcServer) GetProducts(ctx context.Context, req *pbProduct.GetProducts
 
 func (s *grpcServer) CreateProducts(ctx context.Context, req *pbProduct.CreateProductsRequest) (*pbProduct.CreateProductsResponse, error) {
 
+	slog.Info("create products invoked")
+
+	now := time.Now()
+	pgTime := pgtype.Timestamp{
+		Time:  now,
+		Valid: true,
+	}
+
+	tempProduct := repo.CreateProductParams{
+		ID:           req.GetId(),
+		Name:         req.GetName(),
+		Quantity:     req.GetQuantity(),
+		PriceInCents: req.GetPriceInCents(),
+		CreatedAt:    pgtype.Timestamptz(pgTime),
+	}
+
+	createdProduct, err := s.repo.CreateProduct(ctx, tempProduct)
+
+	if err != nil {
+		slog.Error("Database failed to insert product", "error", err)
+		return nil, err // Return the actual database failure to prevent crashing below
+	}
+
+	slog.Info("Product successfully created in DB", "id", createdProduct.ID)
+
 	return &pbProduct.CreateProductsResponse{
 		Product: &pbProduct.Product{
-			Id:           12,
-			Name:         "Macbook4",
-			PriceInCents: 55,
-			Quantity:     45,
-			CreatedAt:    timestamppb.New(time.Now()),
+			Id:           createdProduct.ID,
+			Name:         createdProduct.Name,
+			PriceInCents: createdProduct.PriceInCents,
+			Quantity:     createdProduct.Quantity,
+			CreatedAt:    timestamppb.New(createdProduct.CreatedAt.Time),
 		},
 	}, nil
 }

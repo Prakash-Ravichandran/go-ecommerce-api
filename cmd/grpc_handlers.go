@@ -109,12 +109,25 @@ func (s *grpcServer) CreateProducts(ctx context.Context, req *pbProduct.CreatePr
 func (s *grpcServer) UpdateProducts(ctx context.Context, req *pbProduct.UpdateProductsRequest) (*pbProduct.UpdateProductsResponse, error) {
 	slog.Info("update products invoked")
 
+	tempUpdateProduct := repo.UpdateProductPriceParams{
+		ID:           req.GetId(),
+		PriceInCents: req.GetPriceInCents(),
+	}
+
+	updatedProduct, err := s.repo.UpdateProductPrice(ctx, tempUpdateProduct)
+
+	if err != nil {
+		slog.Error("Database failed to update product proce")
+	}
+
+	slog.Info("Product Price updated successfully")
+
 	return &pbProduct.UpdateProductsResponse{
 		Product: &pbProduct.Product{
-			Id:           12,
-			Name:         "Macbook4",
-			PriceInCents: 55,
-			Quantity:     45,
+			Id:           updatedProduct.ID,
+			Name:         updatedProduct.Name,
+			PriceInCents: updatedProduct.PriceInCents,
+			Quantity:     updatedProduct.Quantity,
 			CreatedAt:    timestamppb.New(time.Now()),
 		},
 	}, nil

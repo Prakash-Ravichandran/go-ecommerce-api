@@ -68,6 +68,20 @@ func (s *grpcServer) GetProducts(ctx context.Context, req *pbProduct.GetProducts
 	}, nil
 }
 
+func (s *grpcServer) ListProductsByID(ctx context.Context, req *pbProduct.ListProductsByIDRequest) (*pbProduct.ListProductsByIDResponse, error) {
+	slog.Info("gRPC ListProductsByID invoked")
+
+	return &pbProduct.ListProductsByIDResponse{
+		Product: &pbProduct.Product{
+			Id:           12,
+			Name:         "Macbook4",
+			PriceInCents: 55,
+			Quantity:     45,
+			CreatedAt:    timestamppb.New(time.Now()),
+		},
+	}, nil
+}
+
 func (s *grpcServer) CreateProducts(ctx context.Context, req *pbProduct.CreateProductsRequest) (*pbProduct.CreateProductsResponse, error) {
 
 	slog.Info("create products invoked")

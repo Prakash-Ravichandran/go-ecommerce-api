@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 
 service ProductService {
     rpc GetProducts (GetProductsRequest) returns (GetProductsResponse);
+    rpc ListProductsByID (ListProductsByIDRequest) returns (ListProductsByIDResponse);
     rpc CreateProducts (CreateProductsRequest) returns (CreateProductsResponse);
     rpc UpdateProducts (UpdateProductsRequest) returns (UpdateProductsResponse);
 }
@@ -24,6 +25,14 @@ message Product {
 
 message GetProductsResponse {
     repeated Product products = 1;
+}
+
+message ListProductsByIDRequest {
+      int64 id = 1;
+}
+
+message  ListProductsByIDResponse {
+    Product product = 1;
 }
 
 message CreateProductsRequest {

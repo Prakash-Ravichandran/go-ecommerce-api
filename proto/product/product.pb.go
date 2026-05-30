@@ -298,6 +298,126 @@ func (x *CreateProductsResponse) GetProduct() *Product {
 	return nil
 }
 
+type UpdateProductsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	PriceInCents  *int32                 `protobuf:"varint,3,opt,name=price_in_cents,json=priceInCents,proto3,oneof" json:"price_in_cents,omitempty"`
+	Quantity      *int32                 `protobuf:"varint,4,opt,name=quantity,proto3,oneof" json:"quantity,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=created_at,json=createdAt,proto3,oneof" json:"created_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateProductsRequest) Reset() {
+	*x = UpdateProductsRequest{}
+	mi := &file_proto_product_product_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateProductsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProductsRequest) ProtoMessage() {}
+
+func (x *UpdateProductsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_product_product_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProductsRequest.ProtoReflect.Descriptor instead.
+func (*UpdateProductsRequest) Descriptor() ([]byte, []int) {
+	return file_proto_product_product_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *UpdateProductsRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpdateProductsRequest) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *UpdateProductsRequest) GetPriceInCents() int32 {
+	if x != nil && x.PriceInCents != nil {
+		return *x.PriceInCents
+	}
+	return 0
+}
+
+func (x *UpdateProductsRequest) GetQuantity() int32 {
+	if x != nil && x.Quantity != nil {
+		return *x.Quantity
+	}
+	return 0
+}
+
+func (x *UpdateProductsRequest) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+type UpdateProductsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Product       *Product               `protobuf:"bytes,1,opt,name=product,proto3" json:"product,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateProductsResponse) Reset() {
+	*x = UpdateProductsResponse{}
+	mi := &file_proto_product_product_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateProductsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateProductsResponse) ProtoMessage() {}
+
+func (x *UpdateProductsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_product_product_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateProductsResponse.ProtoReflect.Descriptor instead.
+func (*UpdateProductsResponse) Descriptor() ([]byte, []int) {
+	return file_proto_product_product_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *UpdateProductsResponse) GetProduct() *Product {
+	if x != nil {
+		return x.Product
+	}
+	return nil
+}
+
 var File_proto_product_product_proto protoreflect.FileDescriptor
 
 const file_proto_product_product_proto_rawDesc = "" +
@@ -321,10 +441,24 @@ const file_proto_product_product_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"D\n" +
 	"\x16CreateProductsResponse\x12*\n" +
-	"\aproduct\x18\x01 \x01(\v2\x10.product.ProductR\aproduct2\xad\x01\n" +
+	"\aproduct\x18\x01 \x01(\v2\x10.product.ProductR\aproduct\"\x84\x02\n" +
+	"\x15UpdateProductsRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12)\n" +
+	"\x0eprice_in_cents\x18\x03 \x01(\x05H\x01R\fpriceInCents\x88\x01\x01\x12\x1f\n" +
+	"\bquantity\x18\x04 \x01(\x05H\x02R\bquantity\x88\x01\x01\x12>\n" +
+	"\n" +
+	"created_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampH\x03R\tcreatedAt\x88\x01\x01B\a\n" +
+	"\x05_nameB\x11\n" +
+	"\x0f_price_in_centsB\v\n" +
+	"\t_quantityB\r\n" +
+	"\v_created_at\"D\n" +
+	"\x16UpdateProductsResponse\x12*\n" +
+	"\aproduct\x18\x01 \x01(\v2\x10.product.ProductR\aproduct2\x80\x02\n" +
 	"\x0eProductService\x12H\n" +
 	"\vGetProducts\x12\x1b.product.GetProductsRequest\x1a\x1c.product.GetProductsResponse\x12Q\n" +
-	"\x0eCreateProducts\x12\x1e.product.CreateProductsRequest\x1a\x1f.product.CreateProductsResponseB@Z>github.com/Prakash-Ravichandran/go-ecommerce-api/proto/productb\x06proto3"
+	"\x0eCreateProducts\x12\x1e.product.CreateProductsRequest\x1a\x1f.product.CreateProductsResponse\x12Q\n" +
+	"\x0eUpdateProducts\x12\x1e.product.UpdateProductsRequest\x1a\x1f.product.UpdateProductsResponseB@Z>github.com/Prakash-Ravichandran/go-ecommerce-api/proto/productb\x06proto3"
 
 var (
 	file_proto_product_product_proto_rawDescOnce sync.Once
@@ -338,29 +472,35 @@ func file_proto_product_product_proto_rawDescGZIP() []byte {
 	return file_proto_product_product_proto_rawDescData
 }
 
-var file_proto_product_product_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_proto_product_product_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_proto_product_product_proto_goTypes = []any{
 	(*GetProductsRequest)(nil),     // 0: product.GetProductsRequest
 	(*Product)(nil),                // 1: product.Product
 	(*GetProductsResponse)(nil),    // 2: product.GetProductsResponse
 	(*CreateProductsRequest)(nil),  // 3: product.CreateProductsRequest
 	(*CreateProductsResponse)(nil), // 4: product.CreateProductsResponse
-	(*timestamppb.Timestamp)(nil),  // 5: google.protobuf.Timestamp
+	(*UpdateProductsRequest)(nil),  // 5: product.UpdateProductsRequest
+	(*UpdateProductsResponse)(nil), // 6: product.UpdateProductsResponse
+	(*timestamppb.Timestamp)(nil),  // 7: google.protobuf.Timestamp
 }
 var file_proto_product_product_proto_depIdxs = []int32{
-	5, // 0: product.Product.created_at:type_name -> google.protobuf.Timestamp
+	7, // 0: product.Product.created_at:type_name -> google.protobuf.Timestamp
 	1, // 1: product.GetProductsResponse.products:type_name -> product.Product
-	5, // 2: product.CreateProductsRequest.created_at:type_name -> google.protobuf.Timestamp
+	7, // 2: product.CreateProductsRequest.created_at:type_name -> google.protobuf.Timestamp
 	1, // 3: product.CreateProductsResponse.product:type_name -> product.Product
-	0, // 4: product.ProductService.GetProducts:input_type -> product.GetProductsRequest
-	3, // 5: product.ProductService.CreateProducts:input_type -> product.CreateProductsRequest
-	2, // 6: product.ProductService.GetProducts:output_type -> product.GetProductsResponse
-	4, // 7: product.ProductService.CreateProducts:output_type -> product.CreateProductsResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	7, // 4: product.UpdateProductsRequest.created_at:type_name -> google.protobuf.Timestamp
+	1, // 5: product.UpdateProductsResponse.product:type_name -> product.Product
+	0, // 6: product.ProductService.GetProducts:input_type -> product.GetProductsRequest
+	3, // 7: product.ProductService.CreateProducts:input_type -> product.CreateProductsRequest
+	5, // 8: product.ProductService.UpdateProducts:input_type -> product.UpdateProductsRequest
+	2, // 9: product.ProductService.GetProducts:output_type -> product.GetProductsResponse
+	4, // 10: product.ProductService.CreateProducts:output_type -> product.CreateProductsResponse
+	6, // 11: product.ProductService.UpdateProducts:output_type -> product.UpdateProductsResponse
+	9, // [9:12] is the sub-list for method output_type
+	6, // [6:9] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_proto_product_product_proto_init() }
@@ -368,13 +508,14 @@ func file_proto_product_product_proto_init() {
 	if File_proto_product_product_proto != nil {
 		return
 	}
+	file_proto_product_product_proto_msgTypes[5].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_product_product_proto_rawDesc), len(file_proto_product_product_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

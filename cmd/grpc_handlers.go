@@ -105,3 +105,17 @@ func (s *grpcServer) CreateProducts(ctx context.Context, req *pbProduct.CreatePr
 		},
 	}, nil
 }
+
+func (s *grpcServer) UpdateProducts(ctx context.Context, req *pbProduct.UpdateProductsRequest) (*pbProduct.UpdateProductsResponse, error) {
+	slog.Info("update products invoked")
+
+	return &pbProduct.UpdateProductsResponse{
+		Product: &pbProduct.Product{
+			Id:           12,
+			Name:         "Macbook4",
+			PriceInCents: 55,
+			Quantity:     45,
+			CreatedAt:    timestamppb.New(time.Now()),
+		},
+	}, nil
+}

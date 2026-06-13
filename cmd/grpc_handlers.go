@@ -71,13 +71,23 @@ func (s *grpcServer) GetProducts(ctx context.Context, req *pbProduct.GetProducts
 func (s *grpcServer) ListProductsByID(ctx context.Context, req *pbProduct.ListProductsByIDRequest) (*pbProduct.ListProductsByIDResponse, error) {
 	slog.Info("gRPC ListProductsByID invoked")
 
+	tempListProductById := req.GetId()
+
+	product, err := s.repo.ListProductsByID(ctx, tempListProductById)
+
+	if err != nil {
+		slog.Error("DataBase failed to get product by id")
+	}
+
+	slog.Info("Product Fetched successfully")
+
 	return &pbProduct.ListProductsByIDResponse{
 		Product: &pbProduct.Product{
-			Id:           12,
-			Name:         "Macbook4",
-			PriceInCents: 55,
-			Quantity:     45,
-			CreatedAt:    timestamppb.New(time.Now()),
+			Id:           product.ID,
+			Name:         product.Name,
+			PriceInCents: product.PriceInCents,
+			Quantity:     product.Quantity,
+			CreatedAt:    timestamppb.New(product.CreatedAt.Time),
 		},
 	}, nil
 }

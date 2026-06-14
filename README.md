@@ -1,3 +1,8 @@
 # go-ecommerce-api server-server communication
 
 <img width="962" height="537" alt="Image" src="https://github.com/user-attachments/assets/923cdcf2-79c5-479a-8c80-12993597a5a9" />
+
+## API gateway :8080
+
+[route REST /products service calls to gRPC /products
+](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/c5fbb79f233f79d11751c70f17eee8dc2bd865f6)

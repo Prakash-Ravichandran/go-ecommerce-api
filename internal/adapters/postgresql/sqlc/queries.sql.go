@@ -121,6 +121,33 @@ func (q *Queries) ListOrders(ctx context.Context) ([]Order, error) {
 	return items, nil
 }
 
+const listOrdersByCustomerID = `-- name: ListOrdersByCustomerID :many
+SELECT id, customer_id, created_at 
+FROM orders 
+WHERE customer_id = $1 
+ORDER BY created_at DESC
+`
+
+func (q *Queries) ListOrdersByCustomerID(ctx context.Context, customerID int64) ([]Order, error) {
+	rows, err := q.db.Query(ctx, listOrdersByCustomerID, customerID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Order
+	for rows.Next() {
+		var i Order
+		if err := rows.Scan(&i.ID, &i.CustomerID, &i.CreatedAt); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listProducts = `-- name: ListProducts :many
 SELECT id, name, price_in_cents, quantity, created_at FROM products
 `

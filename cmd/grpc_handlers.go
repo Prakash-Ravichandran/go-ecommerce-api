@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"time"
 
@@ -210,6 +211,31 @@ func (s *grpcServer) CreateOrders(ctx context.Context, req *pbOrders.CreateOrder
 	defer tx.Rollback(ctx)
 
 	qtx := s.repo.WithTx(tx)
+
+	// 1. Look for an existing order
+	existingOrders, err := qtx.ListOrdersByCustomerID(ctx, req.GetCustomerId())
+
+	// If the database tells us specifically "no rows found", that is GREAT news.
+	// It means the customer is new, so we clear the error and proceed.
+	if errors.Is(err, pgx.ErrNoRows) {
+		err = nil
+		existingOrders = nil
+	}
+
+	// If there was a real database error (connection drop, syntax issue), halt here
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "database lookup failed: %v", err)
+	}
+
+	// Now check if we actually found a record
+	// This works whether existingOrders is a slice (len > 0) or a single struct entity checking an ID match
+	if len(existingOrders) > 0 {
+		return nil, status.Errorf(
+			codes.AlreadyExists,
+			"customer %d already has an active order; duplicate orders are blocked",
+			req.GetCustomerId(),
+		)
+	}
 
 	//create an order
 	order, err := qtx.CreateOrder(ctx, req.GetCustomerId())

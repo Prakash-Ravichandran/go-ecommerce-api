@@ -18,6 +18,12 @@ SELECT * FROM orders;
 -- name: ListOrderById :one
 SELECT * FROM orders where id = $1;
 
+-- name: ListOrdersByCustomerID :many
+SELECT id, customer_id, created_at 
+FROM orders 
+WHERE customer_id = $1 
+ORDER BY created_at DESC;
+
 -- name: CreateProduct :one
 INSERT INTO products (
     id, name, price_in_cents, quantity, created_at

@@ -17,6 +17,8 @@
 
 gRPC /CreateOrders JSON message input for postman
 
+-[rpc /CreateOrders](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/2c0b67ae20199e24a94984350929cd46d51e3306)
+
 ```json
 {
   "customer_id": 49,
@@ -45,3 +47,7 @@ response
   }
 }
 ```
+
+-
+
+- [fix duplicate customer ID in rpc CreateOrders](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/bef0a493a9aebe0a7c9ec56ae940b94bb33a1f8d)

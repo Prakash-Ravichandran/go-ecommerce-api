@@ -50,3 +50,5 @@ response
 -
 
 - [fix duplicate customer ID in rpc CreateOrders](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/bef0a493a9aebe0a7c9ec56ae940b94bb33a1f8d)
+
+- [add HTTP route handler for /orders that forward to rpc orders service](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/b01463c3e968f0dd899c91911b924589894ff630)

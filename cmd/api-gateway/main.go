@@ -1,11 +1,14 @@
 package main
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"log/slog"
 	"net/http"
 	"os"
+	"time"
 
 	pbProduct "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/product"
 	"google.golang.org/grpc"
@@ -54,5 +57,36 @@ func main() {
 }
 
 func (h *GatewayHandler) handleProducts(w http.ResponseWriter, r *http.Request) {
-	slog.Info("hanlder")
+	w.Header().Set("Content-Type", "application/json")
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	switch r.Method {
+	case http.MethodGet:
+		slog.Info("Gateway: GET /products intercepted. Forwarding to gRPC :50051")
+		res, err := h.productClient.GetProducts(ctx, &pbProduct.GetProductsRequest{})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		json.NewEncoder(w).Encode(res)
+
+	case http.MethodPost:
+		slog.Info("Gateway: POST /products intercepted. Forwarding to gRPC :50051")
+
+		var protoReq pbProduct.CreateProductsRequest
+		if err := json.NewDecoder(r.Body).Decode(&protoReq); err != nil {
+			http.Error(w, "Invalid JSON payload", http.StatusBadRequest)
+			return
+		}
+
+		res, err := h.productClient.CreateProducts(ctx, &protoReq)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+		json.NewEncoder(w).Encode(res)
+
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+
 }

@@ -6,3 +6,8 @@
 
 [route REST /products service calls to gRPC /products
 ](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/c5fbb79f233f79d11751c70f17eee8dc2bd865f6)
+
+## gRPC migration of /orders
+
+[orders proto rpc GetOrders, mock reponse
+](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/897437ea9d5bc318caf0368f0bf0225403d53c86)

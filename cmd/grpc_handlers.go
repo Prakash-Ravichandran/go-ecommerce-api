@@ -160,24 +160,39 @@ func (s *grpcServer) UpdateProducts(ctx context.Context, req *pbProduct.UpdatePr
 }
 
 // orders handlers
-
 func (s *grpcServer) GetOrders(ctx context.Context, req *pbOrders.GetOrdersRequest) (*pbOrders.GetOrdersResponse, error) {
-	var mockOrders []*pbOrders.Order
+	slog.Info("gRPC GetOrders invoked")
 
-	mockOrders = []*pbOrders.Order{
-		{
+	orders, err := s.repo.ListOrders(ctx)
+	if err != nil {
+		slog.Error("Error fetching orders")
+	}
+
+	var grpcOrders []*pbOrders.Order
+
+	for _, o := range orders {
+		grpcOrder := &pbOrders.Order{
+			Id:         o.ID,
+			CustomerId: o.CustomerID,
+			CreatedAt:  timestamppb.New(o.CreatedAt.Time),
+		}
+
+		grpcOrders = append(grpcOrders, grpcOrder)
+	}
+
+	return &pbOrders.GetOrdersResponse{
+		Orders: grpcOrders,
+	}, nil
+}
+
+func (s *grpcServer) CreateOrders(ctx context.Context, req *pbOrders.CreateOrdersRequest) (*pbOrders.CreateOrdersResponse, error) {
+	slog.Info("gRPC CreateOrders invoked")
+
+	return &pbOrders.CreateOrdersResponse{
+		Order: &pbOrders.Order{
 			Id:         501,
 			CustomerId: 1001,
 			CreatedAt:  timestamppb.New(time.Now()),
 		},
-		{
-			Id:         502,
-			CustomerId: 1002,
-			CreatedAt:  timestamppb.New(time.Now().Add(-24 * time.Hour)),
-		},
-	}
-
-	return &pbOrders.GetOrdersResponse{
-		Orders: mockOrders,
 	}, nil
 }

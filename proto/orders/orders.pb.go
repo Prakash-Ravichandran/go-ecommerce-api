@@ -162,6 +162,154 @@ func (x *GetOrdersResponse) GetOrders() []*Order {
 	return nil
 }
 
+type Item struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ProductId     int64                  `protobuf:"varint,1,opt,name=product_id,json=productId,proto3" json:"product_id,omitempty"`
+	Quantity      int64                  `protobuf:"varint,2,opt,name=quantity,proto3" json:"quantity,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Item) Reset() {
+	*x = Item{}
+	mi := &file_proto_orders_orders_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Item) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Item) ProtoMessage() {}
+
+func (x *Item) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_orders_orders_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Item.ProtoReflect.Descriptor instead.
+func (*Item) Descriptor() ([]byte, []int) {
+	return file_proto_orders_orders_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *Item) GetProductId() int64 {
+	if x != nil {
+		return x.ProductId
+	}
+	return 0
+}
+
+func (x *Item) GetQuantity() int64 {
+	if x != nil {
+		return x.Quantity
+	}
+	return 0
+}
+
+type CreateOrdersRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	CustomerId    int64                  `protobuf:"varint,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	Items         []*Item                `protobuf:"bytes,2,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOrdersRequest) Reset() {
+	*x = CreateOrdersRequest{}
+	mi := &file_proto_orders_orders_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrdersRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrdersRequest) ProtoMessage() {}
+
+func (x *CreateOrdersRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_orders_orders_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrdersRequest.ProtoReflect.Descriptor instead.
+func (*CreateOrdersRequest) Descriptor() ([]byte, []int) {
+	return file_proto_orders_orders_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *CreateOrdersRequest) GetCustomerId() int64 {
+	if x != nil {
+		return x.CustomerId
+	}
+	return 0
+}
+
+func (x *CreateOrdersRequest) GetItems() []*Item {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type CreateOrdersResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Order         *Order                 `protobuf:"bytes,1,opt,name=order,proto3" json:"order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateOrdersResponse) Reset() {
+	*x = CreateOrdersResponse{}
+	mi := &file_proto_orders_orders_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateOrdersResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateOrdersResponse) ProtoMessage() {}
+
+func (x *CreateOrdersResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_orders_orders_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateOrdersResponse.ProtoReflect.Descriptor instead.
+func (*CreateOrdersResponse) Descriptor() ([]byte, []int) {
+	return file_proto_orders_orders_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CreateOrdersResponse) GetOrder() *Order {
+	if x != nil {
+		return x.Order
+	}
+	return nil
+}
+
 var File_proto_orders_orders_proto protoreflect.FileDescriptor
 
 const file_proto_orders_orders_proto_rawDesc = "" +
@@ -175,9 +323,20 @@ const file_proto_orders_orders_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\":\n" +
 	"\x11GetOrdersResponse\x12%\n" +
-	"\x06orders\x18\x01 \x03(\v2\r.orders.OrderR\x06orders2P\n" +
+	"\x06orders\x18\x01 \x03(\v2\r.orders.OrderR\x06orders\"A\n" +
+	"\x04Item\x12\x1d\n" +
+	"\n" +
+	"product_id\x18\x01 \x01(\x03R\tproductId\x12\x1a\n" +
+	"\bquantity\x18\x02 \x01(\x03R\bquantity\"Z\n" +
+	"\x13CreateOrdersRequest\x12\x1f\n" +
+	"\vcustomer_id\x18\x01 \x01(\x03R\n" +
+	"customerId\x12\"\n" +
+	"\x05items\x18\x02 \x03(\v2\f.orders.ItemR\x05items\";\n" +
+	"\x14CreateOrdersResponse\x12#\n" +
+	"\x05order\x18\x01 \x01(\v2\r.orders.OrderR\x05order2\x9b\x01\n" +
 	"\fOrderService\x12@\n" +
-	"\tGetOrders\x12\x18.orders.GetOrdersRequest\x1a\x19.orders.GetOrdersResponseB?Z=github.com/Prakash-Ravichandran/go-ecommerce-api/proto/ordersb\x06proto3"
+	"\tGetOrders\x12\x18.orders.GetOrdersRequest\x1a\x19.orders.GetOrdersResponse\x12I\n" +
+	"\fCreateOrders\x12\x1b.orders.CreateOrdersRequest\x1a\x1c.orders.CreateOrdersResponseB?Z=github.com/Prakash-Ravichandran/go-ecommerce-api/proto/ordersb\x06proto3"
 
 var (
 	file_proto_orders_orders_proto_rawDescOnce sync.Once
@@ -191,23 +350,30 @@ func file_proto_orders_orders_proto_rawDescGZIP() []byte {
 	return file_proto_orders_orders_proto_rawDescData
 }
 
-var file_proto_orders_orders_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_proto_orders_orders_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_proto_orders_orders_proto_goTypes = []any{
 	(*GetOrdersRequest)(nil),      // 0: orders.GetOrdersRequest
 	(*Order)(nil),                 // 1: orders.Order
 	(*GetOrdersResponse)(nil),     // 2: orders.GetOrdersResponse
-	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
+	(*Item)(nil),                  // 3: orders.Item
+	(*CreateOrdersRequest)(nil),   // 4: orders.CreateOrdersRequest
+	(*CreateOrdersResponse)(nil),  // 5: orders.CreateOrdersResponse
+	(*timestamppb.Timestamp)(nil), // 6: google.protobuf.Timestamp
 }
 var file_proto_orders_orders_proto_depIdxs = []int32{
-	3, // 0: orders.Order.created_at:type_name -> google.protobuf.Timestamp
+	6, // 0: orders.Order.created_at:type_name -> google.protobuf.Timestamp
 	1, // 1: orders.GetOrdersResponse.orders:type_name -> orders.Order
-	0, // 2: orders.OrderService.GetOrders:input_type -> orders.GetOrdersRequest
-	2, // 3: orders.OrderService.GetOrders:output_type -> orders.GetOrdersResponse
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	3, // 2: orders.CreateOrdersRequest.items:type_name -> orders.Item
+	1, // 3: orders.CreateOrdersResponse.order:type_name -> orders.Order
+	0, // 4: orders.OrderService.GetOrders:input_type -> orders.GetOrdersRequest
+	4, // 5: orders.OrderService.CreateOrders:input_type -> orders.CreateOrdersRequest
+	2, // 6: orders.OrderService.GetOrders:output_type -> orders.GetOrdersResponse
+	5, // 7: orders.OrderService.CreateOrders:output_type -> orders.CreateOrdersResponse
+	6, // [6:8] is the sub-list for method output_type
+	4, // [4:6] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_proto_orders_orders_proto_init() }
@@ -221,7 +387,7 @@ func file_proto_orders_orders_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_orders_orders_proto_rawDesc), len(file_proto_orders_orders_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

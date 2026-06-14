@@ -8,6 +8,7 @@ import "google/protobuf/timestamp.proto";
 
 service OrderService {
     rpc GetOrders (GetOrdersRequest) returns (GetOrdersResponse);
+    rpc CreateOrders (CreateOrdersRequest) returns (CreateOrdersResponse);
 }
 
 message GetOrdersRequest {}
@@ -20,4 +21,18 @@ message Order {
 
 message GetOrdersResponse {
     repeated Order orders = 1;
+}
+
+message Item {
+    int64 product_id =1;
+    int64 quantity = 2;
+}
+
+message CreateOrdersRequest {
+    int64 customer_id = 1;
+    repeated Item items = 2;
+}
+
+message CreateOrdersResponse {
+    Order order = 1;
 }

@@ -28,7 +28,6 @@ gRPC /CreateOrders JSON message input for postman
       "quantity": 4
     },
     {
-      "customer_id": 49,
       "product_id": 2,
       "quantity": 6
     }

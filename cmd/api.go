@@ -93,21 +93,23 @@ func (app *application) runGRPC() error {
 
 	pb.RegisterHealthServiceServer(gServer, &grpcServer{})
 
+	productRepo := repo.New(app.db)
 	productHandler := &grpcServer{
 		db:   app.db,
-		repo: repo.New(app.db),
+		repo: *productRepo,
 	}
 	// PROVE IT HERE: Log it right during registration setup
 	slog.Info("Registering Product Service Server",
 		"app_db_nil", app.db == nil,
-		"handler_repo_nil", productHandler.repo == nil,
+		"handler_repo_nil", productRepo == nil,
 	)
 
 	pbProduct.RegisterProductServiceServer(gServer, productHandler)
 
+	orderRepo := repo.New(app.db)
 	ordersHandler := &grpcServer{
 		db:   app.db,
-		repo: repo.New(app.db),
+		repo: *orderRepo,
 	}
 
 	slog.Info("Registering Order Service Server")

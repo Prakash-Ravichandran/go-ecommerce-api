@@ -10,6 +10,8 @@ import (
 	pbProduct "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/product"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	repo "github.com/Prakash-Ravichandran/go-ecommerce-api/internal/adapters/postgresql/sqlc"
@@ -20,7 +22,7 @@ type grpcServer struct {
 	pbProduct.UnimplementedProductServiceServer
 	pbOrders.UnimplementedOrderServiceServer
 	db   *pgx.Conn
-	repo repo.Querier
+	repo repo.Queries
 }
 
 func (s *grpcServer) CheckHealth(ctx context.Context, req *pb.HealthRequest) (*pb.HealthResponse, error) {
@@ -35,16 +37,16 @@ func (s *grpcServer) GetProducts(ctx context.Context, req *pbProduct.GetProducts
 	slog.Info("gRPC GetProducts invoked")
 
 	// 1. DEBUG LOGS: Check what is actually nil before running the query
-	slog.Info("Checking gRPC dependencies",
-		"is_s_nil", s == nil,
-		"is_db_nil", s.db == nil,
-		"is_repo_nil", s.repo == nil,
-	)
+	// slog.Info("Checking gRPC dependencies",
+	// 	"is_s_nil", s == nil,
+	// 	"is_db_nil", s.db == nil,
+	// 	"is_repo_nil", s.repo == nil,
+	// )
 
-	if s.repo == nil {
-		slog.Error("CRITICAL: s.repo is completely nil inside handler!")
-		return nil, context.DeadlineExceeded // return an explicit error to avoid panic
-	}
+	// if s.repo == nil {
+	// 	slog.Error("CRITICAL: s.repo is completely nil inside handler!")
+	// 	return nil, context.DeadlineExceeded // return an explicit error to avoid panic
+	// }
 
 	dbproducts, err := s.repo.ListProducts(ctx)
 
@@ -188,11 +190,64 @@ func (s *grpcServer) GetOrders(ctx context.Context, req *pbOrders.GetOrdersReque
 func (s *grpcServer) CreateOrders(ctx context.Context, req *pbOrders.CreateOrdersRequest) (*pbOrders.CreateOrdersResponse, error) {
 	slog.Info("gRPC CreateOrders invoked")
 
+	// validate payload from the incoming request
+	if req.GetCustomerId() == 0 {
+		return nil, status.Errorf(codes.InvalidArgument, "customer ID is required")
+	}
+	if len(req.GetItems()) == 0 {
+		return nil, status.Errorf(codes.InvalidArgument, "at least one item is required")
+	}
+	// create an order
+	// look for the product if exits
+	// create order item
+
+	//create a transaction
+	tx, err := s.db.Begin(ctx)
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to start transaction: %v", err)
+	}
+	// if there is an err then rollback the changes
+	defer tx.Rollback(ctx)
+
+	qtx := s.repo.WithTx(tx)
+
+	//create an order
+	order, err := qtx.CreateOrder(ctx, req.GetCustomerId())
+	if err != nil {
+		return nil, status.Errorf(codes.Internal, "failed to create order: %v", err)
+	}
+
+	// look for the product if exits
+	for _, item := range req.GetItems() {
+		product, err := qtx.ListProductsByID(ctx, item.ProductId)
+		if err != nil {
+			return nil, status.Errorf(codes.NotFound, "product with ID %d not found", item.ProductId)
+		}
+
+		if product.Quantity < int32(item.Quantity) {
+			return nil, status.Errorf(codes.FailedPrecondition, "product %s has insufficient stock", product.Name)
+		}
+
+		// create order item
+		_, err = qtx.CreateOrderItem(ctx, repo.CreateOrderItemParams{
+			OrderID:    order.ID,
+			ProductID:  item.ProductId,
+			Quantity:   int32(item.Quantity),
+			PriceCents: product.PriceInCents,
+		})
+		if err != nil {
+			return nil, status.Errorf(codes.Internal, "failed to commit transaction: %v", err)
+		}
+		// challenge: update the product stock quantity
+	}
+
+	tx.Commit(ctx) // save order after creating it, if not changes won't be saved to DB.
+
 	return &pbOrders.CreateOrdersResponse{
 		Order: &pbOrders.Order{
-			Id:         501,
-			CustomerId: 1001,
-			CreatedAt:  timestamppb.New(time.Now()),
+			Id:         order.ID,
+			CustomerId: order.CustomerID,
+			CreatedAt:  timestamppb.New(order.CreatedAt.Time),
 		},
 	}, nil
 }

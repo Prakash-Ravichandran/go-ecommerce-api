@@ -14,3 +14,34 @@
 
 - [gRPC GetOrders Actual response &CreateOrders mockresponse
   ](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/2cc8f82cd8a8d048b3dbf0dc85e2abc4f5429aee)
+
+gRPC /CreateOrders JSON message input for postman
+
+```json
+{
+  "customer_id": 49,
+  "items": [
+    {
+      "product_id": 1,
+      "quantity": 4
+    },
+    {
+      "customer_id": 49,
+      "product_id": 2,
+      "quantity": 6
+    }
+  ]
+}
+```
+
+response
+
+```json
+{
+  "order": {
+    "id": "21",
+    "customer_id": "49",
+    "created_at": "2026-06-14T13:27:41.273Z"
+  }
+}
+```

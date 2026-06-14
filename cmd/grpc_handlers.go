@@ -6,6 +6,7 @@ import (
 	"time"
 
 	pb "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/health"
+	pbOrders "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/orders"
 	pbProduct "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/product"
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgtype"
@@ -17,6 +18,7 @@ import (
 type grpcServer struct {
 	pb.UnimplementedHealthServiceServer
 	pbProduct.UnimplementedProductServiceServer
+	pbOrders.UnimplementedOrderServiceServer
 	db   *pgx.Conn
 	repo repo.Querier
 }
@@ -154,5 +156,28 @@ func (s *grpcServer) UpdateProducts(ctx context.Context, req *pbProduct.UpdatePr
 			Quantity:     updatedProduct.Quantity,
 			CreatedAt:    timestamppb.New(time.Now()),
 		},
+	}, nil
+}
+
+// orders handlers
+
+func (s *grpcServer) GetOrders(ctx context.Context, req *pbOrders.GetOrdersRequest) (*pbOrders.GetOrdersResponse, error) {
+	var mockOrders []*pbOrders.Order
+
+	mockOrders = []*pbOrders.Order{
+		{
+			Id:         501,
+			CustomerId: 1001,
+			CreatedAt:  timestamppb.New(time.Now()),
+		},
+		{
+			Id:         502,
+			CustomerId: 1002,
+			CreatedAt:  timestamppb.New(time.Now().Add(-24 * time.Hour)),
+		},
+	}
+
+	return &pbOrders.GetOrdersResponse{
+		Orders: mockOrders,
 	}, nil
 }

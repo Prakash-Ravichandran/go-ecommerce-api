@@ -10,7 +10,9 @@ import (
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/orders"
 	"github.com/Prakash-Ravichandran/go-ecommerce-api/internal/products"
 	pb "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/health"
+	pbOrders "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/orders"
 	pbProduct "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/product"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/jackc/pgx/v5"
@@ -102,6 +104,14 @@ func (app *application) runGRPC() error {
 	)
 
 	pbProduct.RegisterProductServiceServer(gServer, productHandler)
+
+	ordersHandler := &grpcServer{
+		db:   app.db,
+		repo: repo.New(app.db),
+	}
+
+	slog.Info("Registering Order Service Server")
+	pbOrders.RegisterOrderServiceServer(gServer, ordersHandler)
 
 	slog.Info("Starting gRPC server on", "addr", grpcAddr)
 

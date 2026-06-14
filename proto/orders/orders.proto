@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package orders;
+
+option go_package = "github.com/Prakash-Ravichandran/go-ecommerce-api/proto/orders";
+
+import "google/protobuf/timestamp.proto";
+
+service OrderService {
+    rpc GetOrders (GetOrdersRequest) returns (GetOrdersResponse);
+}
+
+message GetOrdersRequest {}
+
+message Order {
+    int64 id = 1;
+    int64 customer_id = 2;
+    google.protobuf.Timestamp created_at = 3;
+}
+
+message GetOrdersResponse {
+    repeated Order orders = 1;
+}

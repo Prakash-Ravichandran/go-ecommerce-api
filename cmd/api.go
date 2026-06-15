@@ -81,8 +81,8 @@ type dbConfig struct {
 	dsn string
 }
 
-// GRPC server
-func (app *application) runGRPC() error {
+// GRPC Products server
+func (app *application) runProductsGRPC() error {
 	grpcAddr := ":50051"
 	lis, err := net.Listen("tcp", grpcAddr)
 	if err != nil {
@@ -91,20 +91,28 @@ func (app *application) runGRPC() error {
 
 	gServer := grpc.NewServer()
 
-	pb.RegisterHealthServiceServer(gServer, &grpcServer{})
-
 	productRepo := repo.New(app.db)
 	productHandler := &grpcServer{
 		db:   app.db,
 		repo: *productRepo,
 	}
-	// PROVE IT HERE: Log it right during registration setup
-	slog.Info("Registering Product Service Server",
-		"app_db_nil", app.db == nil,
-		"handler_repo_nil", productRepo == nil,
-	)
 
 	pbProduct.RegisterProductServiceServer(gServer, productHandler)
+	slog.Info("Starting gRPC Products server on", "addr", grpcAddr)
+
+	return gServer.Serve(lis)
+}
+
+// GRPC Orders server
+func (app *application) runOrderGRPC() error {
+	orderGRPCAddr := ":50052"
+
+	lis, err := net.Listen("tcp", orderGRPCAddr)
+	if err != nil {
+		return err
+	}
+
+	gServer := grpc.NewServer()
 
 	orderRepo := repo.New(app.db)
 	ordersHandler := &grpcServer{
@@ -112,10 +120,26 @@ func (app *application) runGRPC() error {
 		repo: *orderRepo,
 	}
 
-	slog.Info("Registering Order Service Server")
+	slog.Info("Registering Orders Service Server")
 	pbOrders.RegisterOrderServiceServer(gServer, ordersHandler)
 
-	slog.Info("Starting gRPC server on", "addr", grpcAddr)
+	slog.Info("Starting gRPC Orders server on", "addr", orderGRPCAddr)
 
+	return gServer.Serve(lis)
+}
+
+// GRPC Health server
+func (app *application) runHealthGRPC() error {
+	healthGRPCAddr := ":50053"
+	lis, err := net.Listen("tcp", healthGRPCAddr)
+	if err != nil {
+		return err
+	}
+
+	gServer := grpc.NewServer()
+
+	slog.Info("Registering Health Service Server")
+	pb.RegisterHealthServiceServer(gServer, &grpcServer{})
+	slog.Info("Starting gRPC Health server on", "addr", healthGRPCAddr)
 	return gServer.Serve(lis)
 }

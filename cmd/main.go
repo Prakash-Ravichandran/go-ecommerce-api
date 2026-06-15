@@ -52,12 +52,37 @@ func main() {
 	// 	os.Exit(1)
 	// }
 
-	// run GRPC server in a separate go routine to not to block the execution of REST server
-	grpcErr := api.runGRPC()
+	// product service go routine
+	go func() {
+		grpcErr := api.runProductsGRPC()
 
-	if grpcErr != nil {
-		slog.Error("gRPC server failed to start", "error", grpcErr)
-		os.Exit(1)
+		if grpcErr != nil {
+			slog.Error("gRPC products server failed to start", "error", grpcErr)
+			os.Exit(1)
+		}
+	}()
+
+	// order service go routine
+	go func() {
+		grpcErr := api.runOrderGRPC()
+
+		if grpcErr != nil {
+			slog.Error("gRPC order server failed to start", "error", grpcErr)
+		}
+	}()
+
+	// health service go routine
+	go func() {
+		grpcErr := api.runHealthGRPC()
+
+		if grpcErr != nil {
+			slog.Error("gRPC health server failed to start", "error", grpcErr)
+		}
+	}()
+
+	// 3. Start the HTTP Gateway Router on the main thread (blocking)
+	httpHandler := api.mount()
+	if err := api.run(httpHandler); err != nil {
+		slog.Error("HTTP Gateway failed: %v", "error", err)
 	}
-
 }

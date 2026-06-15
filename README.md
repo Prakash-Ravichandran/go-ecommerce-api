@@ -47,8 +47,14 @@ response
 }
 ```
 
--
-
 - [fix duplicate customer ID in rpc CreateOrders](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/bef0a493a9aebe0a7c9ec56ae940b94bb33a1f8d)
 
 - [add HTTP route handler for /orders that forward to rpc orders service](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/b01463c3e968f0dd899c91911b924589894ff630)
+
+### how can run mutiple servers in one application ?
+
+if we have 3 servers to run - one for gateway(HTTP), one for /Orders (gRPC), one for /products (gRPC),
+then have two separate go routines and one server blocking the main thread.
+
+- [google golang groups](https://groups.google.com/g/golang-nuts/c/qTk0QG00lTI)
+- [Writing a service in Go with multiple HTTP REST servers](https://ankur-a22.medium.com/writing-a-service-in-go-with-multiple-http-rest-servers-bf540db1af42)

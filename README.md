@@ -53,6 +53,8 @@ response
 
 ### how can run mutiple servers in one application ?
 
+- [add go routine for servers - orders, products, health](https://github.com/Prakash-Ravichandran/go-ecommerce-api/commit/64e23d889d2e14e8878817a7774781a4bb9d5020)
+
 if we have 3 servers to run - one for gateway(HTTP), one for /Orders (gRPC), one for /products (gRPC),
 then have two separate go routines and one server blocking the main thread.
 
